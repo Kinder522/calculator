@@ -1,7 +1,9 @@
 package com.example.slavaapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -38,9 +40,14 @@ class MainActivity : AppCompatActivity() {
         val numMinus:Button = findViewById(R.id.buttonMinus)
         val numMultiplication:Button = findViewById(R.id.buttonMultiplication)
         val numRovno:Button = findViewById(R.id.buttonEvenly)
+        val numDivision:Button = findViewById(R.id.buttonDivision)
         val numC:Button = findViewById(R.id.buttonC)
+        val hystory:Button = findViewById(R.id.history)
+        val hystory_close:Button = findViewById(R.id.historyClose)
         var number1 = label.text.toString().trim()
         var deystvie = ""
+        val historyText = findViewById<TextView>(R.id.textView)
+        var hist = mutableListOf(0)
 
         num1.setOnClickListener{
             val text  = "1"
@@ -98,6 +105,11 @@ class MainActivity : AppCompatActivity() {
             label.text = ""
             deystvie = "*"
         }
+        numDivision.setOnClickListener(){
+            number1 = label.text.toString().trim()
+            label.text = ""
+            deystvie = "/"
+        }
         numC.setOnClickListener(){
             number1 = ""
             label.text = ""
@@ -107,12 +119,27 @@ class MainActivity : AppCompatActivity() {
             val number2 = label.text.toString().trim()
             if(deystvie == "+"){
                 label.text = (number1.toInt() + number2.toInt()).toString()
-            }else if (deystvie == "-")
+                hist.add(number1.toInt() + number2.toInt())
+            }else if (deystvie == "-"){
                 label.text = (number1.toInt() - number2.toInt()).toString()
-            else if (deystvie == "*")
+                hist.add(number1.toInt() - number2.toInt())}
+            else if (deystvie == "*"){
                 label.text = (number1.toInt() * number2.toInt()).toString()
+                hist.add(number1.toInt() * number2.toInt())}
+            else if (deystvie == "/"){
+                label.text = (number1.toInt() / number2.toInt()).toString()
+                hist.add(number1.toInt() + number2.toInt())}
         }
-
-
+        hystory.setOnClickListener{
+            val historyText = findViewById<TextView>(R.id.textView)
+            val array_size = hist.size
+            for (i in 0..array_size-1){
+                historyText.text = (historyText.text).toString() + hist[i].toString() + " "
+            }
+        }
+        hystory_close.setOnClickListener{
+            historyText.text = ""
+            hist.clear()
+        }
     }
 }
