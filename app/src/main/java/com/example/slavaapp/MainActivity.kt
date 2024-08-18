@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         var deystvie = ""
         val historyText = findViewById<TextView>(R.id.textView)
         var hist = mutableListOf(0)
+        hist.clear()
 
         num1.setOnClickListener{
             val text  = "1"
@@ -132,11 +134,19 @@ class MainActivity : AppCompatActivity() {
         }
         hystory.setOnClickListener{
             val historyText = findViewById<TextView>(R.id.textView)
-            val array_size = hist.size
-            for (i in 0..array_size-1){
-                historyText.text = (historyText.text).toString() + hist[i].toString() + " "
+            if(hystory.text == "История"){
+                val array_size = hist.size
+                for (i in 0..array_size-1){
+                    historyText.text = (historyText.text).toString() + hist[i].toString() + " "
+                }
+                hystory.text = "Закрыть историю"
+            }else{
+                hystory.text = "История"
+                historyText.text = ""
             }
+
         }
+
         hystory_close.setOnClickListener{
             historyText.text = ""
             hist.clear()
